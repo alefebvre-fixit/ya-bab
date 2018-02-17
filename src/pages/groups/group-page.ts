@@ -12,7 +12,7 @@ import { GroupService, MatchMakingService } from '../../ya/core/services';
 export class GroupPage {
 
     public group: Group;
-    public $matchMakings;
+    public matchMakings$;
 
     constructor(private navCtrl: NavController,
         private navParams: NavParams,
@@ -28,7 +28,7 @@ export class GroupPage {
             group => this.group = group
         );
 
-        this.$matchMakings = this.matchMakingService.findByGroupId(id);
+        this.matchMakings$ = this.matchMakingService.findByGroupId(id);
     }
 
 

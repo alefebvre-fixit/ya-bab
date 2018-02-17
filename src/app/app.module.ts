@@ -13,6 +13,10 @@ import { SplashScreen } from '@ionic-native/splash-screen';
 
 
 import { GroupModule } from '../pages/groups';
+import { MatchMakingModule } from '../pages/match-making';
+
+
+
 import { RegisterPageModule } from '../pages/login/register-page.module';
 
 import { AngularFireModule } from 'angularfire2';
@@ -40,7 +44,8 @@ import { GroupService, MatchMakingService } from '../ya/core/services';
     AngularFirestoreModule,
     AngularFireDatabaseModule,
     AngularFireAuthModule,
-    GroupModule
+    GroupModule,
+    MatchMakingModule
   ],
   bootstrap: [IonicApp],
   entryComponents: [

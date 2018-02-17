@@ -1,0 +1,27 @@
+<ion-card>
+
+    <ion-card-content>
+        <p>Match Making {{matchMaking.id}}</p>
+    </ion-card-content>
+
+    <ion-row>
+        <ion-col>
+            <button ion-button icon-left clear small color="danger" (click)="cancel()">        
+                Cancel
+            </button>
+        </ion-col>
+        <ion-col>
+            <button ion-button icon-left clear small>
+                <ion-icon name="text"></ion-icon>
+                <div>4 Comments</div>
+            </button>
+        </ion-col>
+        <ion-col>
+            <button ion-button icon-left clear small (click)="join()">
+                Join
+            </button>
+        </ion-col>
+
+    </ion-row>
+
+</ion-card>

@@ -13,6 +13,6 @@
 
     <button ion-button outline (click)="matchMaking()">Match Making</button>
 
-
+    <ya-match-making [matchMaking]="matchMaking" *ngFor="let matchMaking of matchMakings$ | async"></ya-match-making>
 
 </ion-content>

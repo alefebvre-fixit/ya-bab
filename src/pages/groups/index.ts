@@ -4,11 +4,13 @@ import { IonicModule } from 'ionic-angular';
 
 import { GroupListPage } from './group-list';
 import { GroupPage } from './group-page';
+import { MatchMakingModule } from '../match-making/index';
 
 @NgModule({
   imports: [
     CommonModule,
     IonicModule,
+    MatchMakingModule
   ],
   declarations: [
     GroupListPage,
