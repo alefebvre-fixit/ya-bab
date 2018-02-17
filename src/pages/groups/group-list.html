@@ -1,16 +1,43 @@
 <ion-header>
     <ion-navbar>
-        <ion-title>Group</ion-title>
+        <ion-title>Groups</ion-title>
     </ion-navbar>
 </ion-header>
 
 <ion-content padding>
-    <h2>Welcome to Ionic!</h2>
-    <p>
-        Groups {{groups | json}}
-    </p>
-    <p>
-        Take a look at the
-        <code>src/pages/</code> directory to add or change tabs, update any existing page or create new pages.
-    </p>
+
+    
+    {{groups | json}}
+    <ion-card *ngFor="let group of groups;">
+
+        <img src="assets/imgs/babyfoot.jpg">
+
+        <ion-card-content>
+            <p>{{group.name}}</p>
+        </ion-card-content>
+
+        <ion-row>
+            <ion-col>
+                <button ion-button icon-left clear small>
+                    <ion-icon name="thumbs-up"></ion-icon>
+                    <div>12 Likes</div>
+                </button>
+            </ion-col>
+            <ion-col>
+                <button ion-button icon-left clear small>
+                    <ion-icon name="text"></ion-icon>
+                    <div>4 Comments</div>
+                </button>
+            </ion-col>
+            <ion-col>
+                <button ion-button icon-left clear small (click)="pushGroupPage(group)">
+                    <ion-icon name="text"></ion-icon>
+                    <div>Open</div>
+                </button>
+            </ion-col>
+
+        </ion-row>
+
+    </ion-card>
+
 </ion-content>

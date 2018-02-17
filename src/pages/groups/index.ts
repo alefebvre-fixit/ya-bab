@@ -3,6 +3,7 @@ import { NgModule } from '@angular/core';
 import { IonicModule } from 'ionic-angular';
 
 import { GroupListPage } from './group-list';
+import { GroupPage } from './group-page';
 
 @NgModule({
   imports: [
@@ -11,14 +12,17 @@ import { GroupListPage } from './group-list';
   ],
   declarations: [
     GroupListPage,
+    GroupPage
   ],
   exports: [
     GroupListPage,
+    GroupPage
   ],
   providers: [
   ],
   entryComponents: [
-    GroupListPage
+    GroupListPage,
+    GroupPage
   ],
 })
 

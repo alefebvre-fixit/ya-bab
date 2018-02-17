@@ -13,6 +13,7 @@ import { SplashScreen } from '@ionic-native/splash-screen';
 
 
 import { GroupModule } from '../pages/groups';
+import { RegisterPageModule } from '../pages/login/register-page.module';
 
 import { AngularFireModule } from 'angularfire2';
 import { AngularFireDatabaseModule } from 'angularfire2/database';
@@ -21,7 +22,7 @@ import { AngularFirestoreModule } from 'angularfire2/firestore';
 
 import { environment } from '../environments/environment';
 
-import { GroupService, } from '../ya/core/services';
+import { GroupService, MatchMakingService } from '../ya/core/services';
 
 
 @NgModule({
@@ -50,7 +51,7 @@ import { GroupService, } from '../ya/core/services';
     TabsPage
   ],
   providers: [
-    GroupService,
+    GroupService, MatchMakingService,
     StatusBar,
     SplashScreen,
     {provide: ErrorHandler, useClass: IonicErrorHandler}

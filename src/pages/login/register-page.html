@@ -6,7 +6,7 @@
   </ion-navbar>
 </ion-header>
 <ion-content padding>
-  <form (ngSubmit)="emailSignIn()" #loginForm="ngForm">
+  <form (ngSubmit)="register()" #registerForm="ngForm">
     <ion-row>
       <ion-col>
         <ion-list inset>
@@ -23,13 +23,7 @@
     </ion-row>
     <ion-row>
       <ion-col>
-        <button ion-button full color="primary" type="submit" [disabled]="!loginForm.form.valid">Login</button>
-        
-        <button ion-button block clear full color="secondary" (click)="googleSignIn()" type="button">Google</button>
-
-        
-        <button ion-button block clear full color="secondary" [navPush]="'RegisterPage'" type="button">Register</button>
-
+        <button ion-button full color="primary" type="submit" [disabled]="!registerForm.form.valid">Register</button>
       </ion-col>
     </ion-row>
   </form>
