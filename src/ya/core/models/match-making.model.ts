@@ -4,8 +4,16 @@ export interface MatchMaking {
     groupId: string;
     date: Date;
 
+    participants: Participant[];
+
+    isFull(): boolean;
+
 }
 
+export interface Participant {
+    id: string;
+    name: string;
+}
 
 
 

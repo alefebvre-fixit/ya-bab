@@ -57,4 +57,12 @@ export class MatchMakingService {
     return Observable.fromPromise(this.afs.doc<MatchMaking>(this.matchMakingsUrl() + id).delete());
   }
 
+  public join(matchMaking: MatchMaking){
+    
+    if (matchMaking.isFull()) return;
+
+    
+
+  }
+
 }

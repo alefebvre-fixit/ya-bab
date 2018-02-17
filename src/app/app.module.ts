@@ -45,7 +45,7 @@ import { GroupService, MatchMakingService } from '../ya/core/services';
     AngularFireDatabaseModule,
     AngularFireAuthModule,
     GroupModule,
-    MatchMakingModule
+    
   ],
   bootstrap: [IonicApp],
   entryComponents: [

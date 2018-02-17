@@ -1,10 +1,10 @@
-import { MatchMaking } from '../match-making.model';
+import { MatchMaking, Participant } from '../match-making.model';
 import { Group } from '../group.model';
 
 export class MatchMakingFactory {
     public static create(group: Group): MatchMaking {
 
-        let result = new MatchMakingImpl();
+        let result = new MatchMakingImpl(4);
 
         result.date = new Date();
         result.groupId = group.id;
@@ -13,12 +13,39 @@ export class MatchMakingFactory {
     }
 }
 
-class MatchMakingImpl implements MatchMaking {
+export class ParticipantFactory {
+    public static create(): Participant {
+
+        let result = new ParticipantImpl();
+
+        return Object.assign({}, result)
+    }
+}
+
+class ParticipantImpl implements Participant {
 
     id: string;
-    groupId: string;
+    name: string;
+}
 
+class MatchMakingImpl implements MatchMaking {
+
+
+    constructor(private size: number
+    ) {
+    }
+
+    participants: Participant[];
+    id: string;
+    groupId: string;
     date: Date = new Date();
+    
+    
+    isFull(): boolean {
+        if (!this.participants) return false;
+
+        return (this.participants.length >= this.size)
+    }
 
 
 }
