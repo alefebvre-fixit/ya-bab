@@ -1,16 +1,30 @@
 import { MatchMaking, Participant } from '../match-making.model';
 import { Group } from '../group.model';
+import { User } from '../user.model';
 
 export class MatchMakingFactory {
-    public static create(group: Group): MatchMaking {
+    public static create(group: Group, owner: User): MatchMaking {
 
         let result = new MatchMakingImpl(4);
 
         result.date = new Date();
         result.groupId = group.id;
+        result.participants = [];
+        result.ownerId = owner.id;
 
         return Object.assign({}, result)
     }
+
+    public static createParticipant(user: User): Participant {
+
+        let result = new ParticipantImpl();
+
+        result.id = user.id
+        result.name = user.name
+
+        return Object.assign({}, result)
+    }
+
 }
 
 export class ParticipantFactory {
@@ -31,21 +45,15 @@ class ParticipantImpl implements Participant {
 class MatchMakingImpl implements MatchMaking {
 
 
-    constructor(private size: number
+    constructor(public size: number
     ) {
     }
 
     participants: Participant[];
     id: string;
     groupId: string;
+    ownerId: string;
     date: Date = new Date();
-    
-    
-    isFull(): boolean {
-        if (!this.participants) return false;
-
-        return (this.participants.length >= this.size)
-    }
 
 
 }

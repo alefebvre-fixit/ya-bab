@@ -6,10 +6,10 @@
 
 <ion-content padding>
 
-    A Group {{group?.name}}
-
-
+    {{group?.name}}
+    <br>
     <button ion-button outline (click)="matchMaking()">Match Making</button>
+    <br>
 
     <ya-match-making [matchMaking]="matchMaking" *ngFor="let matchMaking of matchMakings$ | async"></ya-match-making>
 

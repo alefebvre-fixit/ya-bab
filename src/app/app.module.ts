@@ -26,7 +26,7 @@ import { AngularFirestoreModule } from 'angularfire2/firestore';
 
 import { environment } from '../environments/environment';
 
-import { GroupService, MatchMakingService } from '../ya/core/services';
+import { GroupService, MatchMakingService, UserService } from '../ya/core/services';
 
 
 @NgModule({
@@ -56,7 +56,7 @@ import { GroupService, MatchMakingService } from '../ya/core/services';
     TabsPage
   ],
   providers: [
-    GroupService, MatchMakingService,
+    GroupService, MatchMakingService, UserService,
     StatusBar,
     SplashScreen,
     {provide: ErrorHandler, useClass: IonicErrorHandler}

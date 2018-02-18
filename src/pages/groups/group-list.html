@@ -5,9 +5,7 @@
 </ion-header>
 
 <ion-content padding>
-
     
-    {{groups | json}}
     <ion-card *ngFor="let group of groups;">
 
         <img src="assets/imgs/babyfoot.jpg">
@@ -24,14 +22,10 @@
                 </button>
             </ion-col>
             <ion-col>
-                <button ion-button icon-left clear small>
-                    <ion-icon name="text"></ion-icon>
-                    <div>4 Comments</div>
-                </button>
+
             </ion-col>
             <ion-col>
                 <button ion-button icon-left clear small (click)="pushGroupPage(group)">
-                    <ion-icon name="text"></ion-icon>
                     <div>Open</div>
                 </button>
             </ion-col>

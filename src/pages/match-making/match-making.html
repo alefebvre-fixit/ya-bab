@@ -3,16 +3,13 @@
     <ion-card-content>
         <p>Match Making {{matchMaking.id}}</p>
 
-
-
-        <ion-item>
+        <ion-item *ngFor="let participant of matchMaking.participants">
             <ion-avatar item-start>
                 <img src="assets/imgs/marty-avatar.png">
             </ion-avatar>
-            <h2>Marty McFly</h2>
-            <p>November 5, 1955</p>
+            <h2>{{participant.name}}</h2>
+            <p>Rating : 15</p>
         </ion-item>
-
 
     </ion-card-content>
 
@@ -23,10 +20,7 @@
             </button>
         </ion-col>
         <ion-col>
-            <button ion-button icon-left clear small>
-                <ion-icon name="text"></ion-icon>
-                <div>4 Comments</div>
-            </button>
+
         </ion-col>
         <ion-col>
             <button ion-button icon-left clear small (click)="join()">

@@ -28,7 +28,7 @@ export class MatchMakingComponent {
     }
 
     join(): void {
-    
+        this.matchMakingService.join(this.matchMaking);
     }
 
 

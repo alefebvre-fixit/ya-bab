@@ -26,11 +26,7 @@ export class UserService {
 
     public instanciate(fbUser: firebase.User): User {
 
-        const result = UserFactory.create();
-
-        result.id = fbUser.uid;
-        result.email = fbUser.email;
-        result.name = fbUser.displayName;
+        const result = UserFactory.create(fbUser);
 
         return result;
     }
@@ -87,6 +83,10 @@ export class UserService {
 
     public currentFirebaseUser(): firebase.User {
         return this.afAuth.auth.currentUser;
+    }
+
+    public currentUser(): User {
+        return UserFactory.create(this.afAuth.auth.currentUser);
     }
 
 

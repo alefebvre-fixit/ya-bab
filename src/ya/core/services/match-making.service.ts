@@ -3,12 +3,15 @@ import { AngularFirestore, AngularFirestoreCollection } from 'angularfire2/fires
 import { Observable } from 'rxjs/Rx';
 
 import { MatchMakingFactory, MatchMaking, Group } from '../models';
+import { UserService } from './user.service';
 
 @Injectable()
 export class MatchMakingService {
 
   constructor(
     private afs: AngularFirestore,
+    private userService: UserService,
+
   ) {
   }
 
@@ -21,7 +24,7 @@ export class MatchMakingService {
   }
 
   public instanciateMatchMaking(group: Group): MatchMaking {
-    return MatchMakingFactory.create(group);
+    return MatchMakingFactory.create(group, this.userService.currentUser());
   }
 
   public findAll(): Observable<MatchMaking[]> {
@@ -57,12 +60,29 @@ export class MatchMakingService {
     return Observable.fromPromise(this.afs.doc<MatchMaking>(this.matchMakingsUrl() + id).delete());
   }
 
-  public join(matchMaking: MatchMaking){
-    
-    if (matchMaking.isFull()) return;
+  public join(matchMaking: MatchMaking) {
 
-    
+    if (this.isFull(matchMaking)) {
+      console.log('matchMaking is full!')
+      return;
+    }
 
+    let user = this.userService.currentUser();
+
+    if (matchMaking.participants == null){
+      matchMaking.participants = [];
+    }
+
+    matchMaking.participants.push(MatchMakingFactory.createParticipant(user));
+
+    this.save(matchMaking);
+
+  }
+
+  public isFull(matchMaking: MatchMaking): boolean {
+    if (!matchMaking.participants) return false;
+
+    return (matchMaking.participants.length >= matchMaking.size)
   }
 
 }
