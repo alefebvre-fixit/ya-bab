@@ -7,8 +7,8 @@ export class UserFactory {
         let result = new UserImpl();
 
         result.email = fbUser.email;
-        result.id = fbUser.uid;
-        result.name = fbUser.displayName;
+        result.uid = fbUser.uid;
+        result.displayName = fbUser.displayName;
 
         return Object.assign({}, result)
     }
@@ -16,8 +16,12 @@ export class UserFactory {
 
 class UserImpl implements User {
 
-    id: string;
-    name: string;
+
+    uid: string;
     email: string;
+    displayName: string;
+    photoURL: string;
+
+    rank: number;
 
 }

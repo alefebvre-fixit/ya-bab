@@ -1,6 +1,9 @@
 import { Component } from '@angular/core';
-import { AngularFireAuth } from 'angularfire2/auth';
-import { IonicPage } from 'ionic-angular';
+import { IonicPage, NavController, LoadingController } from 'ionic-angular';
+
+import { SignUp } from '../../ya/core/models';
+import { UserService } from '../../ya/core/services';
+import { TabsPage } from '../tabs/tabs';
 
 @IonicPage()
 @Component({
@@ -8,24 +11,33 @@ import { IonicPage } from 'ionic-angular';
   templateUrl: 'register-page.html',
 })
 export class RegisterPage {
-  
-  credentials: SignIn = {
-  	  email: '',
-  	  password: ''
+
+  signUp: SignUp = {
+    email: '',
+    password: '',
+    displayName: ''
   };
 
-  constructor(private auth: AngularFireAuth
+  constructor(
+    private nav: NavController,
+    private userService: UserService,
+    public loadingCtrl: LoadingController
   ) {
-  
+
   }
 
-  register(){
-    this.auth.auth.createUserWithEmailAndPassword(this.credentials.email, this.credentials.password).then();
+  register() {
+
+    this.loadingCtrl.create({
+      content: "Please wait...",
+      dismissOnPageChange: true,
+    }).present();
+
+    this.userService.signUp(this.signUp).subscribe(
+      () => this.nav.push(TabsPage)
+    );
+
   }
-}
 
 
-export class SignIn {
-  email: string;
-  password: string;
 }

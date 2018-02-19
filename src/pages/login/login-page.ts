@@ -1,8 +1,8 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavController, NavParams } from 'ionic-angular';
-import { Observable } from 'rxjs/Rx';
-import { AngularFireAuth } from 'angularfire2/auth';
-import * as firebase from 'firebase/app';
+import { IonicPage, LoadingController, NavController } from 'ionic-angular';
+
+import { SignIn } from '../../ya/core/models';
+import { UserService } from '../../ya/core/services';
 import { TabsPage } from '../tabs/tabs';
 
 @IonicPage()
@@ -10,42 +10,37 @@ import { TabsPage } from '../tabs/tabs';
   templateUrl: 'login-page.html',
 })
 export class LoginPage {
-  
+
   credentials: SignIn = {
-  	  email: '',
-  	  password: ''
+    email: '',
+    password: ''
   };
 
   constructor(
     private nav: NavController,
-    private navParams: NavParams,
-    private afAuth: AngularFireAuth,
+    private loadingCtrl: LoadingController,
+    private userService: UserService,
   ) {
-  
-  }
 
-  login() {
-    console.log('Calling Login')
-    //this.authService.emailSignIn(this.credentials).subscribe();
   }
 
   public googleSignIn() {
-    Observable.fromPromise(<Promise<any>>this.afAuth.auth.signInWithPopup(new firebase.auth.GoogleAuthProvider())).subscribe(
+    this.userService.googleSignIn().subscribe(
       () => this.nav.push(TabsPage)
     );
   }
 
   public emailSignIn() {
-    return Observable.fromPromise(<Promise<any>>this.afAuth.auth.signInWithEmailAndPassword(this.credentials.email, this.credentials.password)).subscribe(
+
+    this.loadingCtrl.create({
+      content: "Please wait...",
+      dismissOnPageChange: true,
+    }).present();
+
+
+    this.userService.emailSignIn(this.credentials).subscribe(
       () => this.nav.push(TabsPage)
-    )
-    ;
+    );
   }
 
-}
-
-
-export class SignIn {
-  email: string;
-  password: string;
 }

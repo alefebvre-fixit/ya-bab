@@ -1,19 +1,33 @@
 import { Injectable } from '@angular/core';
 import { AngularFireAuth } from 'angularfire2/auth';
-import { AngularFirestore, AngularFirestoreCollection } from 'angularfire2/firestore';
+import { AngularFirestore, AngularFirestoreCollection, AngularFirestoreDocument } from 'angularfire2/firestore';
 import * as firebase from 'firebase/app';
 import { Observable } from 'rxjs/Rx';
 
-import { User, UserFactory } from '../models';
+import { SignIn, SignUp, User, UserFactory } from '../models';
 
 
 @Injectable()
 export class UserService {
 
+
+    user$: Observable<User>;
+
+
     constructor(
         private afs: AngularFirestore,
         private afAuth: AngularFireAuth,
     ) {
+        //// Get auth data, then get firestore user document || null
+        this.user$ = this.afAuth.authState
+            .switchMap(user => {
+                if (user) {
+                    return this.afs.doc<User>(`users/${user.uid}`).valueChanges()
+                } else {
+                    return Observable.of(null)
+                }
+            })
+
     }
 
     private userCollection(): AngularFirestoreCollection<User> {
@@ -40,7 +54,7 @@ export class UserService {
     }
 
     public save(user: User): Observable<void> {
-        if (user.id) {
+        if (user.uid) {
             return this.update(user);
         } else {
             return this.create(user);
@@ -48,14 +62,14 @@ export class UserService {
     }
 
     public create(user: User): Observable<void> {
-        if (user.id === undefined) {
-            user.id = this.afs.createId();
+        if (user.uid === undefined) {
+            user.uid = this.afs.createId();
         }
-        return Observable.fromPromise(this.userCollection().doc(user.id).set(user));
+        return Observable.fromPromise(this.userCollection().doc(user.uid).set(user));
     }
 
     private update(user: User): Observable<void> {
-        return Observable.fromPromise(this.userCollection().doc(user.id).update(user));
+        return Observable.fromPromise(this.userCollection().doc(user.uid).update(user));
     }
 
     public delete(id: string): Observable<void> {
@@ -68,7 +82,7 @@ export class UserService {
                 return users;
             }
             return users.filter((user) => {
-                return user.name.toLowerCase().indexOf(searchTerm.toLowerCase()) > -1;
+                return user.displayName.toLowerCase().indexOf(searchTerm.toLowerCase()) > -1;
             });
         }
     }
@@ -88,6 +102,63 @@ export class UserService {
     public currentUser(): User {
         return UserFactory.create(this.afAuth.auth.currentUser);
     }
+
+
+    public googleSignIn(): Observable<any> {
+        return Observable.fromPromise(<Promise<any>>this.afAuth.auth.signInWithPopup(new firebase.auth.GoogleAuthProvider()).then((credential) => {
+            this.updateUserData(credential.user)
+        })
+        );
+    }
+
+    public emailSignIn(signIn: SignIn): Observable<any> {
+        return Observable.fromPromise(<Promise<any>>this.afAuth.auth.signInWithEmailAndPassword(signIn.email, signIn.password).then((user) => {
+            console.log(user);
+            this.updateUserData(user)
+        })
+        );
+    }
+
+    public signUp(signUp: SignUp): Observable<any> {
+        return Observable.fromPromise(<Promise<any>>this.afAuth.auth.createUserAndRetrieveDataWithEmailAndPassword(signUp.email, signUp.password).then((credential) => {
+            console.log(credential)
+            credential.user.updateProfile({
+                displayName: signUp.displayName,
+            }).then(() => {
+                const data: User = {
+                    uid: credential.user.uid,
+                    email: credential.user.email,
+                    displayName: signUp.displayName,
+                    photoURL: credential.user.photoURL,
+                }
+                this.updateUserData(data)
+            }, (error) => {
+                console.log(error)
+            });
+        })
+        );
+    }
+
+    public signOut(): Observable<any> {
+        return Observable.fromPromise(this.afAuth.auth.signOut());
+    }
+
+    private updateUserData(user: User) {
+        // Sets user data to firestore on login
+
+        const userRef: AngularFirestoreDocument<any> = this.afs.doc(`users/${user.uid}`);
+
+        const data: User = {
+            uid: user.uid,
+            email: user.email,
+            displayName: user.displayName,
+            photoURL: user.photoURL
+        }
+
+        return userRef.set(data)
+
+    }
+
 
 
 }

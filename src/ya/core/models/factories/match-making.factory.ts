@@ -10,7 +10,7 @@ export class MatchMakingFactory {
         result.date = new Date();
         result.groupId = group.id;
         result.participants = [];
-        result.ownerId = owner.id;
+        result.ownerId = owner.uid;
 
         return Object.assign({}, result)
     }
@@ -19,8 +19,8 @@ export class MatchMakingFactory {
 
         let result = new ParticipantImpl();
 
-        result.id = user.id
-        result.name = user.name
+        result.id = user.uid
+        result.name = user.displayName
 
         return Object.assign({}, result)
     }
