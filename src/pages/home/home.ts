@@ -1,8 +1,9 @@
 import { Component } from '@angular/core';
-import { NavController, LoadingController } from 'ionic-angular';
-import { UserService } from '../../ya/core/services/user.service';
+import { LoadingController, NavController } from 'ionic-angular';
 import { Observable } from 'rxjs/Observable';
+
 import { User } from '../../ya/core/models';
+import { UserService } from '../../ya/core/services/user.service';
 
 @Component({
   selector: 'page-home',
@@ -10,7 +11,7 @@ import { User } from '../../ya/core/models';
 })
 export class HomePage {
 
-  private user$: Observable<User>;
+  public user$: Observable<User>;
 
   constructor(
     private nav: NavController, 

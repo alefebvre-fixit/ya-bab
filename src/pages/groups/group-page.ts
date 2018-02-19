@@ -1,8 +1,7 @@
 import { Component } from '@angular/core';
-import { NavController, NavParams } from 'ionic-angular';
+import { NavParams } from 'ionic-angular';
 
 import { Group } from '../../ya/core/models';
-
 import { GroupService, MatchMakingService } from '../../ya/core/services';
 
 @Component({
@@ -14,7 +13,7 @@ export class GroupPage {
     public group: Group;
     public matchMakings$;
 
-    constructor(private navCtrl: NavController,
+    constructor(
         private navParams: NavParams,
         private groupService: GroupService,
         private matchMakingService: MatchMakingService

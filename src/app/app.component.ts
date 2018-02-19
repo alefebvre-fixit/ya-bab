@@ -1,12 +1,9 @@
 import { Component } from '@angular/core';
-import { Platform } from 'ionic-angular';
-import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
+import { StatusBar } from '@ionic-native/status-bar';
+import { Platform } from 'ionic-angular';
 
 import { TabsPage } from '../pages/tabs/tabs';
-
-import { LoginPage } from '../pages/login/login-page';
-import { AngularFireAuth } from 'angularfire2/auth';
 import { UserService } from '../ya/core/services';
 
 
@@ -14,7 +11,7 @@ import { UserService } from '../ya/core/services';
   templateUrl: 'app.html'
 })
 export class MyApp {
-  rootPage:any = 'LoginPage';
+  rootPage: any = 'SignInPage';
 
   constructor(platform: Platform, statusBar: StatusBar, splashScreen: SplashScreen, userService: UserService) {
     platform.ready().then(() => {
@@ -23,12 +20,12 @@ export class MyApp {
       statusBar.styleDefault();
       splashScreen.hide();
 
-      const authObserver = userService.user$.subscribe( user => {
+      const authObserver = userService.user$.subscribe(user => {
         if (user) {
           this.rootPage = TabsPage;
           authObserver.unsubscribe();
         } else {
-          this.rootPage = 'LoginPage';
+          this.rootPage = 'SignInPage';
           authObserver.unsubscribe();
         }
       });

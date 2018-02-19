@@ -171,7 +171,7 @@ export class LetterAvatarComponent implements OnInit, OnDestroy, AfterViewInit {
             }
         } else {
             if (this.data.indexOf('http') > -1 || this.data.indexOf('data:image') > -1) {
-                var img_size = 'width:' + this.width + 'px;height:' + this.height + 'px;';
+                img_size = 'width:' + this.width + 'px;height:' + this.height + 'px;';
                 component = "<img src=" + this.data + " style='" + img_size + _style + "'  />";
             } else {
                 component = "<img src=" + base + svgHtml + " style='" + _style + "' title='" + this.data + "' />";

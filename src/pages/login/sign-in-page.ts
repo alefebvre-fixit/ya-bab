@@ -7,9 +7,9 @@ import { TabsPage } from '../tabs/tabs';
 
 @IonicPage()
 @Component({
-  templateUrl: 'login-page.html',
+  templateUrl: 'sign-in-page.html',
 })
-export class LoginPage {
+export class SignInPage {
 
   credentials: SignIn = {
     email: '',

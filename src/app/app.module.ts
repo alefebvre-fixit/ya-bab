@@ -16,9 +16,6 @@ import { GroupModule } from '../pages/groups';
 import { MatchMakingModule } from '../pages/match-making';
 
 
-
-import { RegisterPageModule } from '../pages/login/register-page.module';
-
 import { AngularFireModule } from 'angularfire2';
 import { AngularFireDatabaseModule } from 'angularfire2/database';
 import { AngularFireAuthModule } from 'angularfire2/auth';
@@ -45,7 +42,7 @@ import { GroupService, MatchMakingService, UserService } from '../ya/core/servic
     AngularFireDatabaseModule,
     AngularFireAuthModule,
     GroupModule,
-    
+
   ],
   bootstrap: [IonicApp],
   entryComponents: [
@@ -59,7 +56,7 @@ import { GroupService, MatchMakingService, UserService } from '../ya/core/servic
     GroupService, MatchMakingService, UserService,
     StatusBar,
     SplashScreen,
-    {provide: ErrorHandler, useClass: IonicErrorHandler}
+    { provide: ErrorHandler, useClass: IonicErrorHandler }
   ]
 })
-export class AppModule {}
+export class AppModule { }
