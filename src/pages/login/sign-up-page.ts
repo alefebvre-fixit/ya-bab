@@ -7,10 +7,10 @@ import { TabsPage } from '../tabs/tabs';
 
 @IonicPage()
 @Component({
-  selector: 'register-page',
-  templateUrl: 'register-page.html',
+  selector: 'sign-up-page',
+  templateUrl: 'sign-up-page.html',
 })
-export class RegisterPage {
+export class SignUpPage {
 
   signUp: SignUp = {
     email: '',
@@ -26,7 +26,7 @@ export class RegisterPage {
 
   }
 
-  register() {
+  doSignUp() {
 
     this.loadingCtrl.create({
       content: "Please wait...",

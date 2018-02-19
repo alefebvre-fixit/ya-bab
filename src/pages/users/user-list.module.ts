@@ -2,12 +2,14 @@ import { NgModule } from '@angular/core';
 import { IonicPageModule } from 'ionic-angular';
 
 import { UserListPage } from './user-list';
+import { LetterAvatarModule } from '../../ya/letter-avatar';
 
 @NgModule({
   declarations: [
-    UserListPage, 
+    UserListPage
   ],
   imports: [
+    LetterAvatarModule, 
     IonicPageModule.forChild(UserListPage),
   ],
   exports: [

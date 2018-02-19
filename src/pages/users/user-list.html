@@ -5,13 +5,15 @@
 </ion-header>
 
 <ion-content padding>
-
+    
     <ion-list>
         <ion-item *ngFor="let user of users;">
-        
-            <ion-avatar item-start  *ngIf="user.photoURL">
-                <img [src]="user.photoURL">
+            <ion-avatar item-start *ngIf="!user.photoURL">
+                <ngu-letter-avatar avatar-data='{{user?.displayName}}' avatar-shape='round' avatarborder='true' avatar-height="40" avatar-width="40" avatar-font-size="20"></ngu-letter-avatar>
             </ion-avatar>
+            <ion-avatar item-start *ngIf="user.photoURL">
+                <img [src]="user.photoURL">
+            </ion-avatar>            
             <h2>{{user.displayName}}</h2>
             <p>{{user.rank}}</p>
         </ion-item>
