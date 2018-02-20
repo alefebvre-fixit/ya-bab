@@ -32,7 +32,7 @@ export class HomePage {
     }).present();
 
     this.userService.signOut().subscribe(
-      () => this.nav.push('LoginPage')
+      () => this.nav.push('SignInPage')
     );
 
   }
