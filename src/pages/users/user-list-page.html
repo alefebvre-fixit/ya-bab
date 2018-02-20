@@ -5,9 +5,9 @@
 </ion-header>
 
 <ion-content padding>
-    
+
     <ion-list>
-        <ion-item *ngFor="let user of users;">
+        <ion-item *ngFor="let user of users;" (click)="pushUserPage(user)">
             <ion-avatar item-start *ngIf="!user.photoURL">
                 <ngu-letter-avatar avatar-data='{{user?.displayName}}' avatar-shape='round' avatarborder='true' avatar-height="40" avatar-width="40" avatar-font-size="20"></ngu-letter-avatar>
             </ion-avatar>

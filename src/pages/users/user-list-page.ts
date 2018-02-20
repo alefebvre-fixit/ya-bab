@@ -8,8 +8,8 @@ import { IonicPage } from 'ionic-angular';
 
 @IonicPage()
 @Component({
-    selector: 'user-list',
-    templateUrl: 'user-list.html'
+    selector: 'user-list-page',
+    templateUrl: 'user-list-page.html'
 })
 export class UserListPage {
 
@@ -25,14 +25,14 @@ export class UserListPage {
         });
     }
 
-    public pushUserPage(user: User){
+    public pushUserPage(user: User) {
 
         if (!user) return;
 
-        // this.navCtrl.push(GroupPage, {
-        //   id: user.id,
-        // });
+        this.navCtrl.push('UserPage', {
+            id: user.uid,
+        });
 
-    }    
+    }
 
 }
