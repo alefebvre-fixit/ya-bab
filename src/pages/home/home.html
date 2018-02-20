@@ -7,7 +7,7 @@
 <ion-content padding>
   <h2>Welcome to Ionic!</h2>
   <p>
-    {{user$ | json}}
+    {{user$ | async | json}}
   </p>
   <button ion-button outline (click)="signOut()">sign-out</button>
   <p>

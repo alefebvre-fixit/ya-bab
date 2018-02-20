@@ -4,6 +4,7 @@ import { Observable } from 'rxjs/Rx';
 
 import { MatchMakingFactory, MatchMaking, Group } from '../models';
 import { UserService } from './user.service';
+import { forEach } from '@firebase/util/dist/esm/src/obj';
 
 @Injectable()
 export class MatchMakingService {
@@ -24,7 +25,9 @@ export class MatchMakingService {
   }
 
   public instanciateMatchMaking(group: Group): MatchMaking {
-    return MatchMakingFactory.create(group, this.userService.currentUser());
+    let result =  MatchMakingFactory.create(group, this.userService.currentUser());
+    this.join(result);
+    return result;
   }
 
   public findAll(): Observable<MatchMaking[]> {
@@ -67,9 +70,14 @@ export class MatchMakingService {
       return;
     }
 
+    if (this.hasJoined(matchMaking)) {
+      console.log('allready joined the matchMaking!')
+      return;
+    }
+
     let user = this.userService.currentUser();
 
-    if (matchMaking.participants == null){
+    if (matchMaking.participants == null) {
       matchMaking.participants = [];
     }
 
@@ -77,6 +85,20 @@ export class MatchMakingService {
 
     this.save(matchMaking);
 
+  }
+
+  public hasJoined(matchMaking: MatchMaking) {
+    if (!matchMaking.participants) return false;
+
+    let user = this.userService.currentUser();
+
+    for (let entry of matchMaking.participants) {
+      if (entry.id === user.uid) {
+        return true;
+      }
+
+    }
+    return false;
   }
 
   public isFull(matchMaking: MatchMaking): boolean {

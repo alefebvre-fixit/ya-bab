@@ -21,7 +21,7 @@ export class HomePage {
   }
 
   ngOnInit(): void {
-    this.userService.user$;
+    this.user$ = this.userService.user$;
   }
 
   signOut(): void {
