@@ -25,9 +25,25 @@ export class MatchMakingService {
   }
 
   public instanciateMatchMaking(group: Group): MatchMaking {
-    let result =  MatchMakingFactory.create(group, this.userService.currentUser());
-    this.join(result);
-    return result;
+    let matchMaking =  MatchMakingFactory.create(group, this.userService.currentUser());
+
+    matchMaking.participants = [];
+    matchMaking.participants.push(
+      {
+        id: 'tBCsH6ONQJaz312p76aIJkdtTD63',
+        name: 'Paul(t)'
+      } 
+    );
+    matchMaking.participants.push(
+      {
+        id: 'tBCsH6ONQJaz312p76aIJkdtTD63',
+        name: 'Pierre(t)'
+      } 
+    );
+    
+
+    this.join(matchMaking);
+    return matchMaking;
   }
 
   public findAll(): Observable<MatchMaking[]> {
