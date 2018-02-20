@@ -1,9 +1,10 @@
 import { Component } from '@angular/core';
-import { NavParams } from 'ionic-angular';
+import { NavParams, IonicPage } from 'ionic-angular';
 
 import { Group } from '../../ya/core/models';
 import { GroupService, MatchMakingService } from '../../ya/core/services';
 
+@IonicPage()
 @Component({
     selector: 'group-page',
     templateUrl: 'group-page.html'

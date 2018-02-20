@@ -12,7 +12,6 @@ import { StatusBar } from '@ionic-native/status-bar';
 import { SplashScreen } from '@ionic-native/splash-screen';
 
 
-import { GroupModule } from '../pages/groups';
 import { MatchMakingModule } from '../pages/match-making';
 
 
@@ -41,8 +40,6 @@ import { GroupService, MatchMakingService, UserService } from '../ya/core/servic
     AngularFirestoreModule,
     AngularFireDatabaseModule,
     AngularFireAuthModule,
-    GroupModule,
-
   ],
   bootstrap: [IonicApp],
   entryComponents: [
