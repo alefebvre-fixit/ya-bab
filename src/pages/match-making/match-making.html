@@ -2,20 +2,13 @@
 
     <ion-card-content>
         <p>Match Making {{matchMaking.id}}</p>
+        <br>
+        first: {{ first | json }}
+        <br>
 
-        <ion-item *ngFor="let user of matchMaking.participants">
+        participants: {{ participants | json}}
 
-            <ion-avatar item-start *ngIf="!user.photoURL">
-                <ngu-letter-avatar avatar-data='{{user?.name}}' avatar-shape='round' avatarborder='true' avatar-height="40" avatar-width="40"
-                    avatar-font-size="20"></ngu-letter-avatar>
-            </ion-avatar>
-            <ion-avatar item-start *ngIf="user.photoURL">
-                <img [src]="user.photoURL">
-            </ion-avatar>
-
-            <h2>{{user.name}}</h2>
-            <p>Rank : {{user.rank}}</p>
-        </ion-item>
+        participants2: {{ participants2 | json}}
 
 
         <ion-item *ngFor="let user of participants">
@@ -45,8 +38,11 @@
 
         </ion-col>
         <ion-col>
-            <button ion-button icon-left clear small (click)="join()">
+            <button ion-button icon-left clear small (click)="join()" *ngIf="!isFull()">
                 Join
+            </button>
+            <button ion-button icon-left clear small (click)="pushMatchPage()" *ngIf="isFull()">
+                Open
             </button>
         </ion-col>
 

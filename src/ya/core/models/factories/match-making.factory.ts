@@ -33,6 +33,7 @@ export class ParticipantFactory {
         let result = new ParticipantImpl();
 
         return Object.assign({}, result)
+
     }
 }
 
@@ -40,6 +41,7 @@ class ParticipantImpl implements Participant {
 
     id: string;
     name: string;
+    user?: User; 
 }
 
 class MatchMakingImpl implements MatchMaking {

@@ -13,7 +13,9 @@ export class GroupListPage {
 
     public groups: Group[];
 
-    constructor(public navCtrl: NavController, public groupService: GroupService,
+    constructor(
+        public navCtrl: NavController, 
+        public groupService: GroupService,
     ) {
     }
 

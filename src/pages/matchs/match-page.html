@@ -1,0 +1,62 @@
+<ion-header>
+    <ion-navbar>
+        <ion-title>Match</ion-title>
+    </ion-navbar>
+</ion-header>
+
+<ion-content padding>
+
+    A Match will be here: {{matchMaking?.id}}
+
+    {{participants | json}}
+
+    <!-- <ion-list>
+        <ion-item-sliding *ngFor="let participant of participants" #item>
+            <ion-item>
+
+                <ion-avatar item-start *ngIf="!participant.user?.photoURL">
+                    <ngu-letter-avatar avatar-data='{{participant.name}}' avatar-shape='round' avatarborder='true' avatar-height="40" avatar-width="40"
+                        avatar-font-size="20"></ngu-letter-avatar>
+                </ion-avatar>
+                <ion-avatar item-start *ngIf="participant.user?.photoURL">
+                    <img [src]="participant.user?.photoURL">
+                </ion-avatar>
+
+                <h2>{{participant.user?.displayName}}</h2>
+                <p>{{participant.message}}</p>
+                <ion-note item-end>
+                    {{participant.time}}
+                </ion-note>
+            </ion-item>
+
+            <ion-item-options>
+                <button ion-button color="secondary" (click)="more(item)">
+                    <ion-icon name="menu"></ion-icon>
+                    More
+                </button>
+                <button ion-button color="dark" (click)="mute(item)">
+                    <ion-icon name="volume-off"></ion-icon>
+                    Mute
+                </button>
+                <button ion-button color="danger" (click)="delete(item)">
+                    <ion-icon name="trash"></ion-icon>
+                    Delete
+                </button>
+            </ion-item-options>
+
+            <ion-item-options side="left" (ionSwipe)="archive(item)">
+                <button ion-button color="primary" expandable (click)="archive(item)">
+                    <ion-icon name="archive" class="expand-hide"></ion-icon>
+                    <div class="expand-hide">Archive</div>
+                    <ion-spinner id="archive-spinner"></ion-spinner>
+                </button>
+            </ion-item-options>
+        </ion-item-sliding>
+    </ion-list> -->
+
+
+
+
+
+
+</ion-content>
