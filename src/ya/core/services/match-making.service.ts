@@ -38,7 +38,7 @@ export class MatchMakingService {
     );
     matchMaking.participants.push(
       {
-        id: 'tBCsH6ONQJaz312p76aIJkdtTD63',
+        id: 't519o8rOECfbjLDJjnARPqDVTLu2',
         name: 'Pierre(t)'
       }
     );
@@ -56,34 +56,34 @@ export class MatchMakingService {
     return this.afs.doc<MatchMaking>(this.matchMakingsUrl() + id).valueChanges();
   }
 
-  public findOneWithUsers(id: string): Observable<MatchMaking> {
-    return this.findOne(id).map(
-      (matchMaking) => {
-        this.fillParticipantsWithUser(matchMaking);
-        return matchMaking;
-      }
-    );
-  }
+  // public findOneWithUsers(id: string): Observable<MatchMaking> {
+  //   return this.findOne(id).map(
+  //     (matchMaking) => {
+  //       this.fillParticipantsWithUser(matchMaking);
+  //       return matchMaking;
+  //     }
+  //   );
+  // }
 
 
-  public fillParticipantsWithUser(matchMaking: MatchMaking): void {
-    if (matchMaking && matchMaking.participants) {
-      matchMaking.participants.forEach(
-        (participant) => {
-          this.userService.findOne(participant.id).subscribe(user => participant.user = user)
-        }
-      )
-    }
-  }
+  // public fillParticipantsWithUser(matchMaking: MatchMaking): void {
+  //   if (matchMaking && matchMaking.participants) {
+  //     matchMaking.participants.forEach(
+  //       (participant) => {
+  //         this.userService.findOne(participant.id).subscribe(user => participant.user = user)
+  //       }
+  //     )
+  //   }
+  // }
 
-  public findParticipantsWithUsers(matchMaking: MatchMaking): Observable<Participant[]> {
+  public findParticipantsWithUsers(matchMaking: MatchMaking): Observable<Participant> {
 
     let participants: Array<Participant> = [];
     if (matchMaking && matchMaking.participants) {
       participants = matchMaking.participants;
     }
 
-    return this.getUsers(participants);
+    return this.getUsersOneByOne(participants);
 
     // return Observable.from(participants).mergeMap(participant => this.userService.findOne(participant.id), (participant: Participant, user: User) => {
     //   participant.user = user;
@@ -97,7 +97,7 @@ export class MatchMakingService {
   }
 
   getUsersOneByOne(participants: Participant[]): Observable<Participant> {
-    return Observable.from(participants).concatMap(participant => <Observable<Participant>>this.getUser(participant));
+    return Observable.from(participants).flatMap(participant => <Observable<Participant>>this.getUser(participant));
   }
 
   getUsers(participants: Participant[]): Observable<Participant[]> {
@@ -105,10 +105,16 @@ export class MatchMakingService {
   }
 
   getUser(participant: Participant): Observable<Participant> {
-    return this.userService.findOne(participant.id).map(user => { participant.user = user; return participant }));
+    return this.userService.findOne(participant.id).map(user => { participant.user = user; return participant });
   }
 
 
+  test2(participants: Participant[]): Observable<any[]> {
+    return Observable
+      .from(participants)
+      .concatMap(participant => this.userService.findOne(participant.id))
+      .toArray()
+  }
 
   test(): Observable<string[]> {
     return Observable
@@ -116,6 +122,7 @@ export class MatchMakingService {
       .concatMap(value => Observable.of(value))
       .toArray()
   }
+
 
 
   public findByGroupId(groupId: string): Observable<MatchMaking[]> {

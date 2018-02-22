@@ -14,7 +14,7 @@ import { MatchMakingModule } from '../match-making/index';
 export class MatchPage {
 
     public matchMaking: MatchMaking;
-    public participants: Participant[];
+    public participants: Participant[] = [];
 
     constructor(
         private navParams: NavParams,
@@ -28,12 +28,9 @@ export class MatchPage {
         this.matchMakingService.findOne(id).subscribe(
             matchMaking => {
                 this.matchMaking = matchMaking;
-                this.matchMakingService.findParticipantsWithUsers(this.matchMaking).subscribe(
-                    (participants) => {
-                        console.log('findParticipantsWithUsers :: subscribe')
-                        console.log(participants)
-                        this.participants = participants
-                    }
+                this.participants = [];
+                this.matchMakingService.getUsersOneByOne(this.matchMaking.participants).subscribe(
+                    participant => {this.participants.push(participant)}
                 );
             }
         );

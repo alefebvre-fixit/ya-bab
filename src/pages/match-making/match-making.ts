@@ -14,10 +14,7 @@ export class MatchMakingComponent {
 
     @Input() matchMaking: MatchMaking;
 
-    participants: Participant[] = [];
-    participants2: Participant[] = [];
-
-    first: Participant;
+    public participants: Participant[] = [];
 
     constructor(
         public navCtrl: NavController,
@@ -27,33 +24,19 @@ export class MatchMakingComponent {
     }
 
     ngOnInit(): void {
-        // this.matchMakingService.findParticipantsWithUsers(this.matchMaking).subscribe(
-        //     (users) => this.participants = users
-        // );
-
-
-        this.matchMakingService.getUser(this.matchMaking.participants[0]).subscribe(
-            participant => {this.first = participant}
-        );
-
-        this.matchMakingService.getUsers(this.matchMaking.participants).subscribe(
-            participants => {this.participants2 = participants}
-        );
-
-
-
-        this.matchMakingService.getUsersOneByOne(this.matchMaking.participants).subscribe(
-            participant => {this.participants.push(participant)}
-        );
-
-
-
+       //this.findParticipants();
     }
 
     ngOnChanges(changes: SimpleChanges): void {
-        console.log(changes);
+        this.findParticipants();
     }
 
+    private findParticipants(){
+        this.participants = [];
+        this.matchMakingService.getUsersOneByOne(this.matchMaking.participants).subscribe(
+            participant => {this.participants.push(participant)}
+        );
+    }
 
     cancel(): void {
 
