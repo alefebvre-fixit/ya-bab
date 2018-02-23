@@ -12,15 +12,15 @@
         <ion-item-sliding *ngFor="let participant of participants" #item>
             <ion-item>
 
-                <ion-avatar item-start *ngIf="!participant.user?.photoURL">
-                    <ngu-letter-avatar avatar-data='{{participant.name}}' avatar-shape='round' avatarborder='true' avatar-height="40" avatar-width="40"
-                        avatar-font-size="20"></ngu-letter-avatar>
+                <ion-avatar item-start *ngIf="!participant.user.photoURL">
+                    <ngu-letter-avatar avatar-data='{{participant.user.displayName}}' avatar-shape='round' avatarborder='true' avatar-height="40"
+                        avatar-width="40" avatar-font-size="20"></ngu-letter-avatar>
                 </ion-avatar>
-                <ion-avatar item-start *ngIf="participant.user?.photoURL">
-                    <img [src]="participant.user?.photoURL">
+                <ion-avatar item-start *ngIf="participant.user.photoURL">
+                    <img [src]="participant.user.photoURL">
                 </ion-avatar>
 
-                <h2>{{participant.user?.displayName}}</h2>
+                <h2>{{participant.user.displayName}}</h2>
                 <p>{{participant.message}}</p>
                 <ion-note item-end>
                     {{participant.time}}

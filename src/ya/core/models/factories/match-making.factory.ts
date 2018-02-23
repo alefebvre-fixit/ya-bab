@@ -20,7 +20,6 @@ export class MatchMakingFactory {
         let result = new ParticipantImpl();
 
         result.id = user.uid
-        result.name = user.displayName
 
         return Object.assign({}, result)
     }
@@ -40,8 +39,8 @@ export class ParticipantFactory {
 class ParticipantImpl implements Participant {
 
     id: string;
-    name: string;
-    user?: User; 
+    team: string;
+    user?: User;
 }
 
 class MatchMakingImpl implements MatchMaking {

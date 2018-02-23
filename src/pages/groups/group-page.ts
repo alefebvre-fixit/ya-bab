@@ -38,6 +38,8 @@ export class GroupPage {
         let matchMaking = this.matchMakingService.instanciateMatchMaking(this.group);
         this.matchMakingService.save(matchMaking);
 
+        this.matchMakingService.insertFakeUsers(matchMaking);
+
     }
 
 

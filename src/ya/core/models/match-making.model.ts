@@ -7,17 +7,12 @@ export interface MatchMaking {
     ownerId: string;
     date: Date;
     size: number;
-
-    participants: Participant[];
-
-    teamA?: Participant[];
-    teamB?: Participant[];
-
 }
 
 export interface Participant {
+
     id: string;
-    name: string;
+    team: string;
     user?: User;
 }
 

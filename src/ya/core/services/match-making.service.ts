@@ -29,23 +29,44 @@ export class MatchMakingService {
   public instanciateMatchMaking(group: Group): MatchMaking {
     let matchMaking = MatchMakingFactory.create(group, this.userService.currentUser());
 
-    matchMaking.participants = [];
-    matchMaking.participants.push(
+    // matchMaking.participants = [];
+    // matchMaking.participants.push(
+    //   {
+    //     id: 'tBCsH6ONQJaz312p76aIJkdtTD63',
+    //     name: 'Paul(t)'
+    //   }
+    // );
+    // matchMaking.participants.push(
+    //   {
+    //     id: 't519o8rOECfbjLDJjnARPqDVTLu2',
+    //     name: 'Pierre(t)'
+    //   }
+    // );
+
+
+    //this.join(matchMaking);
+    return matchMaking;
+  }
+
+  public insertFakeUsers(matchMaking: MatchMaking){
+
+    let paul =
       {
         id: 'tBCsH6ONQJaz312p76aIJkdtTD63',
         name: 'Paul(t)'
       }
-    );
-    matchMaking.participants.push(
+    ;
+
+    let pierre = 
       {
         id: 't519o8rOECfbjLDJjnARPqDVTLu2',
         name: 'Pierre(t)'
       }
-    );
+    ;
 
+    this.afs.collection(this.matchMakingsUrl() + matchMaking.id + '/participants/').doc(paul.id).set(paul);
+    this.afs.collection(this.matchMakingsUrl() + matchMaking.id + '/participants/').doc(pierre.id).set(pierre);
 
-    this.join(matchMaking);
-    return matchMaking;
   }
 
   public findAll(): Observable<MatchMaking[]> {
@@ -55,75 +76,6 @@ export class MatchMakingService {
   public findOne(id: string): Observable<MatchMaking> {
     return this.afs.doc<MatchMaking>(this.matchMakingsUrl() + id).valueChanges();
   }
-
-  // public findOneWithUsers(id: string): Observable<MatchMaking> {
-  //   return this.findOne(id).map(
-  //     (matchMaking) => {
-  //       this.fillParticipantsWithUser(matchMaking);
-  //       return matchMaking;
-  //     }
-  //   );
-  // }
-
-
-  // public fillParticipantsWithUser(matchMaking: MatchMaking): void {
-  //   if (matchMaking && matchMaking.participants) {
-  //     matchMaking.participants.forEach(
-  //       (participant) => {
-  //         this.userService.findOne(participant.id).subscribe(user => participant.user = user)
-  //       }
-  //     )
-  //   }
-  // }
-
-  public findParticipantsWithUsers(matchMaking: MatchMaking): Observable<Participant> {
-
-    let participants: Array<Participant> = [];
-    if (matchMaking && matchMaking.participants) {
-      participants = matchMaking.participants;
-    }
-
-    return this.getUsersOneByOne(participants);
-
-    // return Observable.from(participants).mergeMap(participant => this.userService.findOne(participant.id), (participant: Participant, user: User) => {
-    //   participant.user = user;
-    //   console.log(participant)
-    //   return participant;
-    // }).toArray();
-
-    //return Observable.from(participants).toArray();
-
-
-  }
-
-  getUsersOneByOne(participants: Participant[]): Observable<Participant> {
-    return Observable.from(participants).flatMap(participant => <Observable<Participant>>this.getUser(participant));
-  }
-
-  getUsers(participants: Participant[]): Observable<Participant[]> {
-    return Observable.from(participants).concatMap(participant => <Observable<Participant>>this.getUser(participant)).toArray();
-  }
-
-  getUser(participant: Participant): Observable<Participant> {
-    return this.userService.findOne(participant.id).map(user => { participant.user = user; return participant });
-  }
-
-
-  test2(participants: Participant[]): Observable<any[]> {
-    return Observable
-      .from(participants)
-      .concatMap(participant => this.userService.findOne(participant.id))
-      .toArray()
-  }
-
-  test(): Observable<string[]> {
-    return Observable
-      .from(["a", "b", "c"])
-      .concatMap(value => Observable.of(value))
-      .toArray()
-  }
-
-
 
   public findByGroupId(groupId: string): Observable<MatchMaking[]> {
     return this.afs.collection<MatchMaking>(this.matchMakingsUrl(), ref => ref.where('groupId', '==', groupId)).valueChanges();
@@ -152,34 +104,43 @@ export class MatchMakingService {
 
   public join(matchMaking: MatchMaking) {
 
-    if (this.isFull(matchMaking)) {
-      console.log('matchMaking is full!')
-      return;
-    }
-
-    if (this.hasJoined(matchMaking)) {
-      console.log('allready joined the matchMaking!')
-      return;
-    }
-
     let user = this.userService.currentUser();
 
-    if (matchMaking.participants == null) {
-      matchMaking.participants = [];
-    }
+    this.findParticipants(matchMaking.id).take(1).subscribe(
+      participants => {
+        if (this.isFull(matchMaking, participants)) {
+          console.log('matchMaking is full!')
+          return;
+        }
 
-    matchMaking.participants.push(MatchMakingFactory.createParticipant(user));
+        if (this.hasJoined(participants, user)) {
+          console.log('allready joined the matchMaking!')
+          return;
+        }
 
-    this.save(matchMaking);
-
+        this.afs.collection(this.matchMakingsUrl() + matchMaking.id + '/participants/').doc(user.uid).set(MatchMakingFactory.createParticipant(user))
+      }
+    );
   }
 
-  public hasJoined(matchMaking: MatchMaking) {
-    if (!matchMaking.participants) return false;
+  public findParticipants(matchId: string): Observable<Participant[]> {
+    return this.afs.collection<Participant>(this.matchMakingsUrl() + matchId + '/participants/').valueChanges();
+  }
 
-    let user = this.userService.currentUser();
+  public findParticipantsWithUsers(matchId: string): Observable<Participant[]> {
+    return this.findParticipants(matchId).map((participants => {
+      return participants.map(
+        participant => this.userService.findOne(participant.id)
+          .map(user => { participant.user = user; return participant })
+      )
+    })
+    ).flatMap(pobs => Observable.combineLatest(pobs));
+  }
 
-    for (let entry of matchMaking.participants) {
+  public hasJoined(participants: Participant[], user: User) {
+    if (!participants) return false;
+
+    for (let entry of participants) {
       if (entry.id === user.uid) {
         return true;
       }
@@ -188,10 +149,10 @@ export class MatchMakingService {
     return false;
   }
 
-  public isFull(matchMaking: MatchMaking): boolean {
-    if (!matchMaking.participants) return false;
+  public isFull(matchMaking: MatchMaking, participants: Participant[]): boolean {
+    if (!participants) return false;
 
-    return (matchMaking.participants.length >= matchMaking.size)
+    return (participants.length >= matchMaking.size)
   }
 
 }

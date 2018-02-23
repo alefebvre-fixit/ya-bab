@@ -32,10 +32,9 @@ export class MatchMakingComponent {
     }
 
     private findParticipants(){
-        this.participants = [];
-        this.matchMakingService.getUsersOneByOne(this.matchMaking.participants).subscribe(
-            participant => {this.participants.push(participant)}
-        );
+        this.matchMakingService.findParticipantsWithUsers(this.matchMaking.id).subscribe(
+            participants => {this.participants = participants}
+        )
     }
 
     cancel(): void {
@@ -65,7 +64,7 @@ export class MatchMakingComponent {
     }
 
     isFull(): boolean {
-        return this.matchMakingService.isFull(this.matchMaking);
+        return this.matchMakingService.isFull(this.matchMaking, this.participants);
     }
 
 
