@@ -9,7 +9,7 @@
     A Match will be here: {{matchMaking?.id}}
 
     <ion-list>
-        <ion-item-sliding *ngFor="let participant of participants" #item>
+        <ion-item-sliding *ngFor="let participant of participants$ | async" #item>
             <ion-item>
 
                 <ion-avatar item-start *ngIf="!participant.user.photoURL">

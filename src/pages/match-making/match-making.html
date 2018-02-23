@@ -3,7 +3,7 @@
     <ion-card-content>
         <p>Match Making {{matchMaking.id}}</p>
 
-        <ion-item *ngFor="let participant of participants">
+        <ion-item *ngFor="let participant of participants$ | async">
 
             <ion-avatar item-start *ngIf="!participant.user.photoURL">
                 <ngu-letter-avatar avatar-data='{{participant.user.displayName}}' avatar-shape='round' avatarborder='true' avatar-height="40"
@@ -30,10 +30,10 @@
 
         </ion-col>
         <ion-col>
-            <button ion-button icon-left clear small (click)="join()" *ngIf="!isFull()">
+            <button ion-button icon-left clear small (click)="join()" *ngIf="!full">
                 Join
             </button>
-            <button ion-button icon-left clear small (click)="pushMatchPage()" *ngIf="isFull()">
+            <button ion-button icon-left clear small (click)="pushMatchPage()" *ngIf="full">
                 Open
             </button>
         </ion-col>

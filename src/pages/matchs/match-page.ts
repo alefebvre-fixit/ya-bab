@@ -14,7 +14,7 @@ import { MatchMakingModule } from '../match-making/index';
 export class MatchPage {
 
     public matchMaking: MatchMaking;
-    public participants: Participant[];
+    public participants$: Observable<Participant[]>;
 
     constructor(
         private navParams: NavParams,
@@ -28,9 +28,7 @@ export class MatchPage {
         this.matchMakingService.findOne(id).subscribe(
             matchMaking => {
                 this.matchMaking = matchMaking;
-                this.matchMakingService.findParticipantsWithUsers(this.matchMaking.id).subscribe(
-                    participants => { this.participants = participants }
-                )
+                this.participants$ = this.matchMakingService.findParticipantsWithUsers(this.matchMaking.id);
             }
         );
     }

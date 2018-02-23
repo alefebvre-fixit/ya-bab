@@ -14,7 +14,9 @@ export class MatchMakingComponent {
 
     @Input() matchMaking: MatchMaking;
 
-    public participants: Participant[] = [];
+
+    public participants$: Observable<Participant[]>;
+    public full = false;
 
     constructor(
         public navCtrl: NavController,
@@ -24,17 +26,16 @@ export class MatchMakingComponent {
     }
 
     ngOnInit(): void {
-       //this.findParticipants();
-    }
+        this.participants$ = this.matchMakingService.findParticipantsWithUsers(this.matchMaking.id);
 
+        this.participants$.subscribe(
+            participants => {
+                this.full = this.matchMakingService.isFull(this.matchMaking, participants);
+            }
+        );
+    }
+    
     ngOnChanges(changes: SimpleChanges): void {
-        this.findParticipants();
-    }
-
-    private findParticipants(){
-        this.matchMakingService.findParticipantsWithUsers(this.matchMaking.id).subscribe(
-            participants => {this.participants = participants}
-        )
     }
 
     cancel(): void {
@@ -62,11 +63,5 @@ export class MatchMakingComponent {
         });
 
     }
-
-    isFull(): boolean {
-        return this.matchMakingService.isFull(this.matchMaking, this.participants);
-    }
-
-
 
 }
