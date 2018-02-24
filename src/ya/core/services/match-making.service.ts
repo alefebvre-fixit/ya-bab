@@ -155,4 +155,21 @@ export class MatchMakingService {
     return (participants.length >= matchMaking.size)
   }
 
+  public assignRedTeam(matchId: string, participant: Participant){
+    this.assignTeam(matchId, participant, 'red');
+  }
+
+  public assignBlueTeam(matchId: string, participant: Participant){
+    this.assignTeam(matchId, participant, 'blue');
+  }
+
+  public unassignTeam(matchId: string, participant: Participant){
+    this.assignTeam(matchId, participant, 'none');
+  }
+
+
+  public assignTeam(matchId: string, participant: Participant, team: string){
+    Observable.fromPromise(this.afs.collection(this.matchMakingsUrl() + matchId + '/participants/').doc(participant.id).update({team: team}));
+  }
+
 }

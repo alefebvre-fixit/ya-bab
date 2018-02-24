@@ -3,10 +3,12 @@ import { IonicPageModule } from 'ionic-angular';
 
 import { MatchPage } from './match-page';
 import { LetterAvatarModule } from '../../ya/letter-avatar';
+import { TeamFilterPipe } from '../shared/pipes/team-filter.pipe';
 
 @NgModule({
   declarations: [
-    MatchPage
+    MatchPage,
+    TeamFilterPipe
   ],
   imports: [
     LetterAvatarModule, 

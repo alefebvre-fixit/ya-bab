@@ -5,13 +5,11 @@
 </ion-header>
 
 <ion-content padding>
-
-    A Match will be here: {{matchMaking?.id}}
-
     <ion-list>
-        <ion-item-sliding *ngFor="let participant of participants$ | async" #item>
-            <ion-item>
+        <ion-list-header>Unassigned</ion-list-header>
 
+        <ion-item-sliding *ngFor="let participant of unassigned$ | async" #item>
+            <ion-item>
                 <ion-avatar item-start *ngIf="!participant.user.photoURL">
                     <ngu-letter-avatar avatar-data='{{participant.user.displayName}}' avatar-shape='round' avatarborder='true' avatar-height="40"
                         avatar-width="40" avatar-font-size="20"></ngu-letter-avatar>
@@ -21,35 +19,94 @@
                 </ion-avatar>
 
                 <h2>{{participant.user.displayName}}</h2>
-                <p>{{participant.message}}</p>
+                <p>{{participant.team}}</p>
                 <ion-note item-end>
-                    {{participant.time}}
+                    {{participant.rank}}
                 </ion-note>
             </ion-item>
 
-            <ion-item-options>
-                <button ion-button color="secondary" (click)="more(item)">
-                    <ion-icon name="menu"></ion-icon>
-                    More
-                </button>
-                <button ion-button color="dark" (click)="mute(item)">
-                    <ion-icon name="volume-off"></ion-icon>
-                    Mute
-                </button>
-                <button ion-button color="danger" (click)="delete(item)">
-                    <ion-icon name="trash"></ion-icon>
-                    Delete
+            <ion-item-options (ionSwipe)="assignRed(participant)">
+                <button ion-button color="danger" expandable (click)="assignRed(participant)">
+                    <div class="expand-hide">RED</div>
                 </button>
             </ion-item-options>
 
-            <ion-item-options side="left" (ionSwipe)="archive(item)">
-                <button ion-button color="primary" expandable (click)="archive(item)">
-                    <ion-icon name="archive" class="expand-hide"></ion-icon>
-                    <div class="expand-hide">Archive</div>
-                    <ion-spinner id="archive-spinner"></ion-spinner>
+            <ion-item-options side="left" (ionSwipe)="assignBlue(participant)">
+                <button ion-button color="primary" expandable (click)="assignBlue(participant)">
+                    <div class="expand-hide">BLUE</div>
                 </button>
             </ion-item-options>
         </ion-item-sliding>
+
+        <ion-list-header>Blue Team</ion-list-header>
+
+
+        <ion-item-sliding *ngFor="let participant of blueTeam$ | async " #item>
+            <ion-item>
+                <ion-avatar item-start *ngIf="!participant.user.photoURL">
+                    <ngu-letter-avatar avatar-data='{{participant.user.displayName}}' avatar-shape='round' avatarborder='true' avatar-height="40"
+                        avatar-width="40" avatar-font-size="20"></ngu-letter-avatar>
+                </ion-avatar>
+                <ion-avatar item-start *ngIf="participant.user.photoURL">
+                    <img [src]="participant.user.photoURL">
+                </ion-avatar>
+
+                <h2>{{participant.user.displayName}}</h2>
+                <p>{{participant.team}}</p>
+                <ion-note item-end>
+                    {{participant.rank}}
+                </ion-note>
+            </ion-item>
+
+            <ion-item-options (ionSwipe)="unassign(participant)">
+                <button ion-button color="dark" expandable (click)="unassign(participant)">
+                    <div class="expand-hide">NONE</div>
+                </button>
+            </ion-item-options>
+
+            <ion-item-options side="left" (ionSwipe)="unassign(participant)">
+                <button ion-button color="dark" expandable (click)="unassign(participant)">
+                    <div class="expand-hide">NONE</div>
+                </button>
+            </ion-item-options>
+        </ion-item-sliding>
+
+
+        <ion-list-header>Red Team</ion-list-header>
+
+        <ion-item-sliding *ngFor="let participant of redTeam$ | async " #item>
+            <ion-item>
+                <ion-avatar item-start *ngIf="!participant.user.photoURL">
+                    <ngu-letter-avatar avatar-data='{{participant.user.displayName}}' avatar-shape='round' avatarborder='true' avatar-height="40"
+                        avatar-width="40" avatar-font-size="20"></ngu-letter-avatar>
+                </ion-avatar>
+                <ion-avatar item-start *ngIf="participant.user.photoURL">
+                    <img [src]="participant.user.photoURL">
+                </ion-avatar>
+
+                <h2>{{participant.user.displayName}}</h2>
+                <p>{{participant.team}}</p>
+                <ion-note item-end>
+                    {{participant.rank}}
+                </ion-note>
+            </ion-item>
+
+            <ion-item-options (ionSwipe)="unassign(participant)">
+                <button ion-button color="dark" expandable (click)="unassign(participant)">
+                    <div class="expand-hide">NONE</div>
+                </button>
+            </ion-item-options>
+
+            <ion-item-options side="left" (ionSwipe)="unassign(participant)">
+                <button ion-button color="dark" expandable (click)="unassign(participant)">
+                    <div class="expand-hide">NONE</div>
+                </button>
+            </ion-item-options>
+        </ion-item-sliding>
+
+
+
+
     </ion-list>
 
 
