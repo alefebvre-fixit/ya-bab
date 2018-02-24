@@ -50,17 +50,17 @@ export class MatchPage {
 
 
     assignRed(participant: Participant){
-        this.matchMakingService.assignRedTeam(this.matchMaking.id, participant);
+        this.matchMakingService.assignRedTeam(this.matchMaking, participant);
         console.log(participant.user.displayName + ' is red')
     }
 
     assignBlue(participant: Participant){
-        this.matchMakingService.assignBlueTeam(this.matchMaking.id, participant);
+        this.matchMakingService.assignBlueTeam(this.matchMaking, participant);
         console.log(participant.user.displayName + ' is blue')
     }
 
     unassign(participant: Participant){
-        this.matchMakingService.unassignTeam(this.matchMaking.id, participant);
+        this.matchMakingService.unassignTeam(this.matchMaking, participant);
         console.log(participant.user.displayName + ' is unassigned')
     }
 

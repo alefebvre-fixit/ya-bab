@@ -48,21 +48,21 @@ export class MatchMakingService {
     return matchMaking;
   }
 
-  public insertFakeUsers(matchMaking: MatchMaking){
+  public insertFakeUsers(matchMaking: MatchMaking) {
 
     let paul =
       {
         id: 'tBCsH6ONQJaz312p76aIJkdtTD63',
         name: 'Paul(t)'
       }
-    ;
+      ;
 
-    let pierre = 
+    let pierre =
       {
         id: 't519o8rOECfbjLDJjnARPqDVTLu2',
         name: 'Pierre(t)'
       }
-    ;
+      ;
 
     this.afs.collection(this.matchMakingsUrl() + matchMaking.id + '/participants/').doc(paul.id).set(paul);
     this.afs.collection(this.matchMakingsUrl() + matchMaking.id + '/participants/').doc(pierre.id).set(pierre);
@@ -155,21 +155,55 @@ export class MatchMakingService {
     return (participants.length >= matchMaking.size)
   }
 
-  public assignRedTeam(matchId: string, participant: Participant){
-    this.assignTeam(matchId, participant, 'red');
+  public assignRedTeam(matchMaking: MatchMaking, participant: Participant) {
+    this.assignTeam(matchMaking, participant, 'red');
   }
 
-  public assignBlueTeam(matchId: string, participant: Participant){
-    this.assignTeam(matchId, participant, 'blue');
+  public assignBlueTeam(matchMaking: MatchMaking, participant: Participant) {
+    this.assignTeam(matchMaking, participant, 'blue');
   }
 
-  public unassignTeam(matchId: string, participant: Participant){
-    this.assignTeam(matchId, participant, 'none');
+  public unassignTeam(matchMaking: MatchMaking, participant: Participant) {
+    this.assignTeam(matchMaking, participant, 'none');
   }
 
 
-  public assignTeam(matchId: string, participant: Participant, team: string){
-    Observable.fromPromise(this.afs.collection(this.matchMakingsUrl() + matchId + '/participants/').doc(participant.id).update({team: team}));
+  public assignTeam(matchMaking: MatchMaking, participant: Participant, team: string) {
+
+    if (!matchMaking) return;
+    if (!participant) return;
+
+    let oldTeam = participant.team;
+    participant.team = team;
+
+    //no need toc heck if the team is full
+    if (team === 'none'){
+      Observable.fromPromise(this.afs.collection(this.matchMakingsUrl() + matchMaking.id + '/participants/').doc(participant.id).update({ team: team }));
+    } else {
+      this.findParticipants(matchMaking.id).take(1).subscribe(
+        participants => {
+          if (this.isTeamFull(matchMaking, participants, team)){
+            //revert the change
+            participant.team = oldTeam;
+          } else {
+            Observable.fromPromise(this.afs.collection(this.matchMakingsUrl() + matchMaking.id + '/participants/').doc(participant.id).update({ team: team }));
+          }
+        }
+      );
+    }
   }
+
+  public isTeamFull(matchMaking: MatchMaking, participants: Participant[], team: string): boolean {
+    if (!participants) return false;
+
+    let teamSize = participants.filter(participant => { return participant.team === team }).length;
+    console.log('teamSize=' + teamSize)
+    console.log('isFull=' + (teamSize >= matchMaking.size / 2))
+    
+    return (teamSize >= matchMaking.size / 2)
+  }
+
+
+
 
 }
