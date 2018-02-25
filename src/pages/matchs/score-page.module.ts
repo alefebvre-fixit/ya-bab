@@ -1,19 +1,19 @@
 import { NgModule } from '@angular/core';
 import { IonicPageModule } from 'ionic-angular';
 
-import { MatchPage } from './match-page';
 import { LetterAvatarModule } from '../../ya/letter-avatar';
+import { ScorePage } from './score-page';
 
 @NgModule({
   declarations: [
-    MatchPage,
+    ScorePage,
   ],
   imports: [
     LetterAvatarModule, 
-    IonicPageModule.forChild(MatchPage),
+    IonicPageModule.forChild(ScorePage),
   ],
   exports: [
-    MatchPage,
+    ScorePage,
   ],
 })
-export class MatchPageModule {}
+export class ScorePageModule {}

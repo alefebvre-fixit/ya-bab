@@ -1,10 +1,9 @@
 import { Component } from '@angular/core';
-import { IonicPage, NavParams } from 'ionic-angular';
-
-import { User, MatchMaking, Participant } from '../../ya/core/models';
-import { UserService, MatchMakingService } from '../../ya/core/services';
+import { IonicPage, ModalController, NavParams } from 'ionic-angular';
 import { Observable } from 'rxjs/Observable';
-import { MatchMakingModule } from '../match-making/index';
+
+import { MatchMaking, Participant } from '../../ya/core/models';
+import { MatchMakingService } from '../../ya/core/services';
 
 @IonicPage()
 @Component({
@@ -22,8 +21,8 @@ export class MatchPage {
 
     constructor(
         private navParams: NavParams,
-        private matchMakingService: MatchMakingService,
-        private userService: UserService
+        public modalCtrl: ModalController,
+        private matchMakingService: MatchMakingService
     ) {
     }
 
@@ -49,21 +48,25 @@ export class MatchPage {
     }
 
 
-    assignRed(participant: Participant){
+    assignRed(participant: Participant): void{
         this.matchMakingService.assignRedTeam(this.matchMaking, participant);
         console.log(participant.user.displayName + ' is red')
     }
 
-    assignBlue(participant: Participant){
+    assignBlue(participant: Participant): void{
         this.matchMakingService.assignBlueTeam(this.matchMaking, participant);
         console.log(participant.user.displayName + ' is blue')
     }
 
-    unassign(participant: Participant){
+    unassign(participant: Participant): void{
         this.matchMakingService.unassignTeam(this.matchMaking, participant);
         console.log(participant.user.displayName + ' is unassigned')
     }
 
+    finish(): void{
+        let modal = this.modalCtrl.create('ScorePage');
+        modal.present();
+    }
 
 
 }
