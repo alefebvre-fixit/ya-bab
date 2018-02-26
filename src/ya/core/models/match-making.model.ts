@@ -6,8 +6,30 @@ export interface MatchMaking {
     groupId: string;
     ownerId: string;
     date: Date;
-    size: number;
+
+    players: number;
+    games: number;
+
+    score: Score;
+
 }
+
+
+export interface Game {
+
+    id: string;
+    score: Score;
+
+}
+
+export interface Score {
+
+    winner: string;
+    teamAScore: number;
+    teamBScore: number;
+
+}
+
 
 export interface Participant {
 

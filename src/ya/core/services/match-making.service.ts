@@ -152,7 +152,7 @@ export class MatchMakingService {
   public isFull(matchMaking: MatchMaking, participants: Participant[]): boolean {
     if (!participants) return false;
 
-    return (participants.length >= matchMaking.size)
+    return (participants.length >= matchMaking.players)
   }
 
   public assignRedTeam(matchMaking: MatchMaking, participant: Participant) {
@@ -198,9 +198,9 @@ export class MatchMakingService {
 
     let teamSize = participants.filter(participant => { return participant.team === team }).length;
     console.log('teamSize=' + teamSize)
-    console.log('isFull=' + (teamSize >= matchMaking.size / 2))
+    console.log('isFull=' + (teamSize >= matchMaking.players / 2))
     
-    return (teamSize >= matchMaking.size / 2)
+    return (teamSize >= matchMaking.players / 2)
   }
 
 
