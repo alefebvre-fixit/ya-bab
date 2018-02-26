@@ -14,20 +14,20 @@ export interface MatchMaking {
 
 }
 
-
 export interface Game {
 
     id: string;
-    score: Score;
-
+    teamA: number;
+    teamB: number;
 }
 
 export interface Score {
 
     winner: string;
-    teamAScore: number;
-    teamBScore: number;
+    teamA: number;
+    teamB: number;
 
+    games: Array<Game>;
 }
 
 

@@ -42,7 +42,6 @@ export class GameFactory {
     public static create(): Game {
 
         let result = new GameImpl();
-        result.score = ScoreFactory.create();
 
         return Object.assign({}, result)
 
@@ -53,6 +52,7 @@ export class ScoreFactory {
     public static create(): Score {
 
         let result = new ScoreImpl();
+        result.games = [];
 
         return Object.assign({}, result)
 
@@ -69,16 +69,18 @@ class ParticipantImpl implements Participant {
 class ScoreImpl implements Score {
 
     winner: string;
-    teamAScore: number = 0;
-    teamBScore: number = 0;
+    teamA: number;
+    teamB: number;
+
+    games: Array<Game>;
 
 }
 
 class GameImpl implements Game {
 
     id: string;
-
-    score: Score;
+    teamA: number;
+    teamB: number;
 
 }
 

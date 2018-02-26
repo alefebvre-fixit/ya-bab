@@ -14,6 +14,9 @@ export class ScorePage {
 
     public matchMaking: MatchMaking;
 
+    scoreTeamA: any;
+    scoreTeamB: any;
+
     constructor(
         private navParams: NavParams,
         private matchMakingService: MatchMakingService,
@@ -33,12 +36,18 @@ export class ScorePage {
         );
 
         this.score = this.fb.group({
-            match1TeamA: ['', [Validators.required]],
-            match1TeamB: ['', [Validators.required]],
-            match2TeamA: ['', [Validators.required]],
-            match2TeamB: ['', [Validators.required]],
-            match3TeamA: ['', [Validators.required]],
-            match3TeamB: ['', [Validators.required]],
+            match1: this.fb.group({
+                teamA: ['', Validators.required],
+                teamB: ['', Validators.required]
+            }),
+            match2: this.fb.group({
+                teamA: ['', Validators.required],
+                teamB: ['', Validators.required]
+            }),
+            match3: this.fb.group({
+                teamA: ['', Validators.required],
+                teamB: ['', Validators.required]
+            })
         });
 
 

@@ -6,17 +6,19 @@
 
 <ion-content>
 
+  {{scoreTeamA}}:{{scoreTeamA}}
 
   <ion-grid>
 
 
     <form novalidate (ngSubmit)="onSubmit(score)" [formGroup]="score">
-      <ion-row>
+
+      <ion-row formGroupName="match1">
         <ion-col>
           <ion-list>
             <ion-item>
               <ion-label stacked>Match 1 - Team A</ion-label>
-              <ion-input type="number" formControlName="match1TeamA" min="0" max="10"></ion-input>
+              <ion-input type="number" formControlName="teamA" min="0" max="10"></ion-input>
             </ion-item>
           </ion-list>
         </ion-col>
@@ -24,18 +26,18 @@
           <ion-list>
             <ion-item>
               <ion-label stacked>Match 1 - Team B</ion-label>
-              <ion-input type="number" formControlName="match1TeamB" min="0" max="10"></ion-input>
+              <ion-input type="number" formControlName="teamB" min="0" max="10"></ion-input>
             </ion-item>
           </ion-list>
         </ion-col>
       </ion-row>
 
-      <ion-row>
+      <ion-row formGroupName="match2">
         <ion-col>
           <ion-list>
             <ion-item>
               <ion-label stacked>Match 2 - Team A</ion-label>
-              <ion-input type="number" formControlName="match2TeamA" min="0" max="10"></ion-input>
+              <ion-input type="number" formControlName="teamA" min="0" max="10"></ion-input>
             </ion-item>
           </ion-list>
         </ion-col>
@@ -43,18 +45,18 @@
           <ion-list>
             <ion-item>
               <ion-label stacked>Match 2 - Team B</ion-label>
-              <ion-input type="number" formControlName="match2TeamB" min="0" max="10"></ion-input>
+              <ion-input type="number" formControlName="teamB" min="0" max="10"></ion-input>
             </ion-item>
           </ion-list>
         </ion-col>
       </ion-row>
 
-      <ion-row>
+      <ion-row formGroupName="match3">
         <ion-col>
           <ion-list>
             <ion-item>
               <ion-label stacked>Match 3 - Team A</ion-label>
-              <ion-input type="number" formControlName="match3TeamA" min="0" max="10"></ion-input>
+              <ion-input type="number" formControlName="teamA" min="0" max="10"></ion-input>
             </ion-item>
           </ion-list>
         </ion-col>
@@ -62,7 +64,7 @@
           <ion-list>
             <ion-item>
               <ion-label stacked>Match 3 - Team B</ion-label>
-              <ion-input type="number" formControlName="match3TeamB" min="0" max="10"></ion-input>
+              <ion-input type="number" formControlName="teamB" min="0" max="10"></ion-input>
             </ion-item>
           </ion-list>
         </ion-col>
