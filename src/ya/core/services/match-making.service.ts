@@ -7,7 +7,7 @@ import { UserService } from './user.service';
 import { forEach } from '@firebase/util/dist/esm/src/obj';
 import { Participant, User } from '../models';
 import { mergeMap } from 'rxjs/operator/mergeMap';
-import { Score } from '../models/match-making.model';
+import { Score, Game } from '../models/match-making.model';
 
 @Injectable()
 export class MatchMakingService {
@@ -204,10 +204,31 @@ export class MatchMakingService {
     return (teamSize >= matchMaking.players / 2)
   }
 
-  public calculateScore(game: Score) {
-  
+  public calculateScore(score: Score) {
+    
+    score.teamA = 0;
+    score.teamB = 0;
 
+    score.games.forEach(
+      game => {
+        if (game.teamA && game.teamB){
+          if (game.teamA > game.teamB){
+            score.teamA ++  
+          } else if (game.teamA < game.teamB){
+            score.teamB ++          
+          } 
+        }
+      }
+    );
 
+    if (score.teamA && score.teamB){
+      if (score.teamA > score.teamB){
+        score.winner = 'teamA' 
+      } else if (score.teamA < score.teamB){
+        score.winner = 'teamB' 
+      } 
+    }
+    
   }
 
 
